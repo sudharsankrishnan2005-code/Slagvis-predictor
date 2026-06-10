@@ -1,5 +1,5 @@
 export const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+  "https://slagvis-predictor.onrender.com/api/v1";
 
 export interface SlagInput {
   sio2: number;
