@@ -1,5 +1,4 @@
-export const API_BASE =
-  "https://slagvis-predictor.onrender.com/api/v1";
+export const API_BASE = "https://slagvis-predictor.onrender.com/api/v1";
 
 export interface SlagInput {
   sio2: number;
