@@ -1,0 +1,38 @@
+# Render Blueprint — deploy backend + optional PostgreSQL
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: slagvis-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.10"
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: slagvis-db
+          property: connectionString
+
+  - type: web
+    name: slagvis-web
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+
+databases:
+  - name: slagvis-db
+    plan: free
+    databaseName: slagvis
+    user: slagvis
